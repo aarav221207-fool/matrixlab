@@ -2,5 +2,5 @@
   "name": "MatrixLab",
   "description": "MatrixLab — Advanced Matrix Calculator & Scanner",
   "requestFramePermissions": ["camera"],
-  "majorCapabilities": []
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
