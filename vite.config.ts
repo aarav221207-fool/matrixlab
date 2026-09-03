@@ -8,7 +8,7 @@ export default defineConfig(({ command, mode }) => {
   console.log(`[MatrixLab Build] Gemini API key configured: ${isKeyConfigured ? 'YES' : 'NO'}`);
 
   return {
-    base: command === 'build' ? '/matrixlab/' : '/',
+    base: '/matrixlab/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
