@@ -1,14 +1,14 @@
 # MatrixLab - Advanced Matrix Calculator & Scanner
 
-MatrixLab is a modern, client-side, multi-matrix calculator and analysis tool. It features a robust mathematical engine for linear algebra operations, a dynamic multi-matrix workspace, and an optional serverless image scanner that extracts matrices directly from uploaded photographs.
+MatrixLab is a modern, client-side, multi-matrix calculator and linear algebra analysis tool. It features a high-precision mathematical engine for advanced matrix computations, a dynamic multi-matrix workspace, and an optional client-side image scanner that extracts matrices directly from camera photos or uploaded images using Gemini.
 
 ## Features
 
-- **Multi-Matrix Workspace**: Create, manage, and edit an unlimited number of matrices simultaneously.
-- **Client-Side Calculations**: All linear algebra operations are deterministic and run securely in the browser. 
-- **Advanced Operations**: Addition, multiplication, determinant, inverse, pseudo-inverse, trace, rank, nullity, RREF, LU/QR decomposition, eigenvalues/vectors, norms, and more.
-- **Image Matrix Scanner (Optional)**: Capture or upload an image to automatically extract the mathematical matrix using Gemini.
-- **Matrix History**: Your workspace and recent calculations are securely stored locally via `localStorage`.
+- **Multi-Matrix Workspace**: Create, manage, rename, duplicate, and edit an unlimited number of matrices simultaneously (A, B, C, D, ...).
+- **Client-Side Calculations**: All linear algebra operations are deterministic, fast, and run 100% locally in the browser with zero backend requirements.
+- **Comprehensive Operations**: Addition, multiplication, determinant, inverse, pseudo-inverse, trace, rank, nullity, REF, RREF, LU/QR decomposition, eigenvalues/eigenvectors, norms, linear system solving, and more.
+- **Direct Gemini Image Scanner**: Capture or upload photos to recognize and extract matrices into your workspace with confidence scoring and interactive pre-acceptance editing.
+- **Local Persistence**: Workspace state and recent calculation history are securely preserved in browser `localStorage`.
 
 ## Development Setup
 
@@ -18,33 +18,31 @@ MatrixLab is a modern, client-side, multi-matrix calculator and analysis tool. I
 npm install
 ```
 
-### 2. Configure Environment Variables
+### 2. Configure Local Environment (Optional)
 
-Copy `.env.example` to `.env` and configure your API endpoint (no secret keys go in the frontend!):
+To enable the image matrix scanner during local development, create a `.env.local` file in the project root:
 
 ```bash
-cp .env.example .env
+VITE_GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
-### 3. Start the Development Server
+*(Note: `.env.local` is ignored by git and will not be committed.)*
+
+### 3. Start Development Server
 
 ```bash
 npm run dev
 ```
 
-## Scanner Deployment (Netlify)
-
-To enable the image matrix scanner, deploy the provided serverless function:
-
-1. Install Netlify CLI: `npm install -g netlify-cli`
-2. Link or create a project: `netlify link`
-3. Set your Gemini API key in the Netlify environment variables: `netlify env:set GEMINI_API_KEY your_api_key_here`
-4. Deploy the function: `netlify deploy --prod`
-
-Update your frontend's `VITE_SCANNER_API_URL` to point to this deployed function.
-
 ## GitHub Pages Deployment
 
-The static frontend is configured for deployment to GitHub Pages. The included `.github/workflows/deploy.yml` workflow automatically builds and deploys the `main` branch. 
+MatrixLab is built for static deployment directly to GitHub Pages:
 
-MatrixLab's core operations work completely offline and require no backend. If the `VITE_SCANNER_API_URL` is omitted or offline, the calculator remains fully functional.
+1. In your GitHub repository, navigate to **Settings** → **Secrets and variables** → **Actions**.
+2. Add a new repository secret:
+   - **Name**: `VITE_GEMINI_API_KEY`
+   - **Value**: Your Gemini API key
+3. Ensure GitHub Pages is enabled under **Settings** → **Pages** (Source: **GitHub Actions**).
+4. Pushing to `main` or running the **Deploy to GitHub Pages** workflow will automatically build and publish MatrixLab to GitHub Pages.
+
+MatrixLab's mathematical calculator runs entirely offline and functions seamlessly even if the scanner key is not configured.

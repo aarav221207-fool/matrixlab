@@ -41,6 +41,7 @@ jobs:
         env:
           NODE_ENV: production
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
