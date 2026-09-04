@@ -14,8 +14,8 @@ test('App renders without crashing or backend requirements', () => {
     </ErrorBoundary>
   );
   expect(html).toContain('MatrixLab');
-  expect(html).toContain('Calculate Result');
-  expect(html).toContain('Matrix Workspace');
+  expect(html).toContain('EXECUTE COMPUTATION');
+  expect(html).toContain('Data Workspace');
 });
 
 test('ScannerWorkspace renders cleanly with touch actions and upload controls', () => {
@@ -26,9 +26,9 @@ test('ScannerWorkspace renders cleanly with touch actions and upload controls', 
       onAddMatrix={() => {}} 
     />
   );
-  expect(html).toContain('Matrix Scanner');
-  expect(html).toContain('Take Photo');
-  expect(html).toContain('Upload Images');
+  expect(html).toContain('Vision Scanner');
+  expect(html).toContain('Camera');
+  expect(html).toContain('Gallery');
 });
 
 test('Scanner gracefully handles missing API key when unconfigured', async () => {
@@ -127,4 +127,28 @@ test('Multi-matrix workspace operations support arbitrary operand selection and 
   // AB + C -> Result
   const ABC = m.add(AB, C);
   expect(ABC).toEqual([[3, 4], [5, 6]]);
+});
+
+test('StrokeText component renders SVG text structure correctly without errors', async () => {
+  const { StrokeText } = await import('./StrokeText');
+  const html = renderToString(
+    <StrokeText
+      text="MatrixLab"
+      strokeColor="#A78BFA"
+      fillColor="#F8FAFC"
+      strokeWidth={1.4}
+      drawDuration={1.6}
+      fillDelay={0.2}
+      stagger={0.05}
+      ease="power2.out"
+      trigger="mount"
+      fillMode="wipe"
+      fontSize={128}
+      fontWeight={800}
+      letterSpacing={-4}
+    />
+  );
+  expect(html).toContain('MatrixLab');
+  expect(html).toContain('<svg');
+  expect(html).toContain('clipPath');
 });

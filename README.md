@@ -22,8 +22,7 @@ npm install
 
 To enable the image matrix scanner during local development, create a `.env.local` file in the project root:
 
-```bash
-VITE_GEMINI_API_KEY=your_gemini_api_key_here
+
 ```
 
 *(Note: `.env.local` is ignored by git and will not be committed.)*
