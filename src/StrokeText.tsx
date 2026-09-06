@@ -176,7 +176,7 @@ export const StrokeText: React.FC<StrokeTextProps> = ({
     <div 
       ref={containerRef}
       id={id}
-      className={`stroke-text-container relative w-full flex items-center justify-center overflow-visible select-none ${className}`}
+      className={`stroke-text-container relative w-full max-w-full min-w-0 flex items-center justify-center overflow-hidden pointer-events-none select-none ${className}`}
       style={{
         maxWidth: '100%',
         touchAction: 'manipulation',
@@ -186,11 +186,11 @@ export const StrokeText: React.FC<StrokeTextProps> = ({
         ref={svgRef}
         viewBox={`0 0 ${totalEstimatedWidth} ${viewBoxHeight}`}
         preserveAspectRatio="xMidYMid meet"
-        className="w-full h-auto max-w-full drop-shadow-[0_0_40px_rgba(167,139,250,0.3)]"
+        className="w-full h-auto max-w-full drop-shadow-[0_0_40px_rgba(96,165,250,0.3)]"
         style={{
           maxHeight: `${effectiveSize * 1.3}px`,
-          minHeight: '42px',
-          overflow: 'visible',
+          minHeight: '36px',
+          overflow: 'hidden',
         }}
         role="img"
         aria-label={text}
