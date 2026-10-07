@@ -11,6 +11,7 @@ import {
 } from '../../math/linearAlgebraEngine';
 import { MatrixEditor } from '../../components/MatrixEditor';
 import { StepsViewer } from '../../components/ui/StepsViewer';
+import { MathRenderer } from '../../components/design-system/MathRenderer';
 import { Play, AlertCircle, CheckCircle2 } from 'lucide-react';
 
 export const LinearAlgebraMode: React.FC = () => {
@@ -194,12 +195,24 @@ export const LinearAlgebraMode: React.FC = () => {
                 </div>
                 <div className="p-3.5 rounded-2xl bg-black/60 border border-white/5">
                   <div className="text-[10px] text-white/40 uppercase font-mono tracking-wider">Projection of v onto u</div>
-                  <div className="text-sm font-mono font-bold text-cyan-300">[{vectorResult.projectionVontoU.join(', ')}]</div>
+                  <div className="text-sm font-mono font-bold text-cyan-300">
+                    <MathRenderer
+                      expression={`\\operatorname{proj}_{\\mathbf{u}}(\\mathbf{v}) = \\begin{bmatrix} ${vectorResult.projectionVontoU.join(' \\\\ ')} \\end{bmatrix}`}
+                      displayMode={false}
+                      size="sm"
+                    />
+                  </div>
                 </div>
                 {vectorResult.crossProduct && (
                   <div className="p-3.5 rounded-2xl bg-black/60 border border-white/5">
                     <div className="text-[10px] text-white/40 uppercase font-mono tracking-wider">Cross Product u × v</div>
-                    <div className="text-sm font-mono font-bold text-amber-300">[{vectorResult.crossProduct.join(', ')}]</div>
+                    <div className="text-sm font-mono font-bold text-amber-300">
+                      <MathRenderer
+                        expression={`\\mathbf{u} \\times \\mathbf{v} = \\begin{bmatrix} ${vectorResult.crossProduct.join(' \\\\ ')} \\end{bmatrix}`}
+                        displayMode={false}
+                        size="sm"
+                      />
+                    </div>
                   </div>
                 )}
               </div>
@@ -245,8 +258,12 @@ export const LinearAlgebraMode: React.FC = () => {
                     Orthogonal Vectors {'{uᵢ}'}
                   </div>
                   {gsResult.orthogonalVectors.map((v, i) => (
-                    <div key={i} className="font-mono text-xs text-white/90">
-                      u_{i + 1} = [ {v.join(', ')} ]
+                    <div key={i} className="text-xs text-white/90">
+                      <MathRenderer
+                        expression={`\\mathbf{u}_{${i + 1}} = [\\begin{matrix} ${v.join(', ')} \\end{matrix}]^T`}
+                        displayMode={false}
+                        size="sm"
+                      />
                     </div>
                   ))}
                 </div>
@@ -256,8 +273,12 @@ export const LinearAlgebraMode: React.FC = () => {
                     Orthonormal Vectors {'{eᵢ}'} (Unit Length)
                   </div>
                   {gsResult.orthonormalVectors.map((v, i) => (
-                    <div key={i} className="font-mono text-xs text-white/90">
-                      e_{i + 1} = [ {v.join(', ')} ]
+                    <div key={i} className="text-xs text-white/90">
+                      <MathRenderer
+                        expression={`\\mathbf{e}_{${i + 1}} = [\\begin{matrix} ${v.join(', ')} \\end{matrix}]^T`}
+                        displayMode={false}
+                        size="sm"
+                      />
                     </div>
                   ))}
                 </div>
@@ -312,8 +333,12 @@ export const LinearAlgebraMode: React.FC = () => {
                     Column Space Col(A)
                   </div>
                   {basisResult.columnSpaceBasis.map((vec, i) => (
-                    <div key={i} className="font-mono text-xs text-white/90">
-                      c_{i + 1} = [{vec.join(', ')}]
+                    <div key={i} className="text-xs text-white/90">
+                      <MathRenderer
+                        expression={`\\mathbf{c}_{${i + 1}} = [\\begin{matrix} ${vec.join(', ')} \\end{matrix}]^T`}
+                        displayMode={false}
+                        size="sm"
+                      />
                     </div>
                   ))}
                 </div>
@@ -323,8 +348,12 @@ export const LinearAlgebraMode: React.FC = () => {
                     Row Space Row(A)
                   </div>
                   {basisResult.rowSpaceBasis.map((vec, i) => (
-                    <div key={i} className="font-mono text-xs text-white/90">
-                      r_{i + 1} = [{vec.join(', ')}]
+                    <div key={i} className="text-xs text-white/90">
+                      <MathRenderer
+                        expression={`\\mathbf{r}_{${i + 1}} = [\\begin{matrix} ${vec.join(', ')} \\end{matrix}]^T`}
+                        displayMode={false}
+                        size="sm"
+                      />
                     </div>
                   ))}
                 </div>
@@ -335,8 +364,12 @@ export const LinearAlgebraMode: React.FC = () => {
                   </div>
                   {basisResult.nullSpaceBasis.length > 0 ? (
                     basisResult.nullSpaceBasis.map((vec, i) => (
-                      <div key={i} className="font-mono text-xs text-white/90">
-                        n_{i + 1} = [{vec.join(', ')}]
+                      <div key={i} className="text-xs text-white/90">
+                        <MathRenderer
+                          expression={`\\mathbf{n}_{${i + 1}} = [\\begin{matrix} ${vec.join(', ')} \\end{matrix}]^T`}
+                          displayMode={false}
+                          size="sm"
+                        />
                       </div>
                     ))
                   ) : (
@@ -398,8 +431,12 @@ export const LinearAlgebraMode: React.FC = () => {
                   <div className="text-[10px] font-mono text-white/40 uppercase tracking-widest mb-1">
                     Optimal Parameter Vector x̂
                   </div>
-                  <div className="text-xl font-mono font-bold text-blue-300">
-                    [{lsResult.solution.join(', ')}]
+                  <div className="text-xl font-bold text-blue-300">
+                    <MathRenderer
+                      expression={`\\mathbf{\\hat{x}} = [\\begin{matrix} ${lsResult.solution.join(', ')} \\end{matrix}]^T`}
+                      displayMode={false}
+                      size="lg"
+                    />
                   </div>
                 </div>
 

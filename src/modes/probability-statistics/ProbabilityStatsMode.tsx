@@ -11,6 +11,7 @@ import {
 } from '../../math/statisticsEngine';
 import { InteractiveGraph, GraphFunction, GraphPoint } from '../../components/graphing/InteractiveGraph';
 import { StepsViewer } from '../../components/ui/StepsViewer';
+import { MathRenderer } from '../../components/design-system/MathRenderer';
 import { Play, AlertCircle } from 'lucide-react';
 
 export const ProbabilityStatsMode: React.FC = () => {
@@ -275,11 +276,11 @@ export const ProbabilityStatsMode: React.FC = () => {
             <div className="space-y-6">
               <div className="p-6 rounded-3xl bg-black/40 border border-white/10 glass-panel space-y-4">
                 <div className="p-4 rounded-2xl bg-black/60 border border-white/5 space-y-1">
-                  <div className="text-[10px] font-mono text-white/40 uppercase tracking-widest">
+                  <div className="text-[10px] font-mono text-white/40 uppercase tracking-widest mb-1">
                     Best-Fit Regression Line
                   </div>
-                  <div className="font-mono text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-green-300">
-                    {regressionResult.regressionEquation}
+                  <div className="text-xl sm:text-2xl font-bold text-blue-200">
+                    <MathRenderer expression={regressionResult.regressionEquation} displayMode={true} size="lg" />
                   </div>
                 </div>
 

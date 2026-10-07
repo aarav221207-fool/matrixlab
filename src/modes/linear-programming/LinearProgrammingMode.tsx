@@ -6,6 +6,7 @@ import {
 } from '../../math/linearProgrammingEngine';
 import { InteractiveGraph, GraphFunction, GraphPoint, GraphPolygon } from '../../components/graphing/InteractiveGraph';
 import { StepsViewer } from '../../components/ui/StepsViewer';
+import { MathRenderer } from '../../components/design-system/MathRenderer';
 import { Play, Plus, Trash2, AlertCircle, CheckCircle2 } from 'lucide-react';
 
 export const LinearProgrammingMode: React.FC = () => {
@@ -252,11 +253,15 @@ export const LinearProgrammingMode: React.FC = () => {
 
             {result.optimalVertex && (
               <div className="p-4 rounded-2xl bg-black/60 border border-white/5 space-y-1">
-                <div className="text-[10px] font-mono text-white/40 uppercase tracking-widest">
+                <div className="text-[10px] font-mono text-white/40 uppercase tracking-widest mb-1">
                   Optimal Corner Point (x*, y*)
                 </div>
-                <div className="font-mono text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-green-300">
-                  x* = {result.optimalVertex.x}, y* = {result.optimalVertex.y} ⇒ {result.objective.toUpperCase()} Z = {result.optimalValue}
+                <div className="text-lg sm:text-xl font-bold text-blue-200">
+                  <MathRenderer
+                    expression={`(x^*, y^*) = (${result.optimalVertex.x}, ${result.optimalVertex.y}) \\implies Z^* = ${result.optimalValue}`}
+                    displayMode={false}
+                    size="md"
+                  />
                 </div>
               </div>
             )}

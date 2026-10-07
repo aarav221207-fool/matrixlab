@@ -10,7 +10,8 @@ import {
   GeometryResult
 } from '../../math/geometryEngine';
 import { StepsViewer } from '../../components/ui/StepsViewer';
-import { Play, Shapes } from 'lucide-react';
+import { MathRenderer } from '../../components/design-system/MathRenderer';
+import { Play, Shapes, AlertCircle } from 'lucide-react';
 
 type ShapeType = 'circle' | 'triangle' | 'rectangle' | 'sphere' | 'cylinder' | 'cone' | 'cuboid';
 
@@ -28,8 +29,10 @@ export const GeometryMode: React.FC = () => {
   const [depth, setDepth] = useState<number>(6);
 
   const [result, setResult] = useState<GeometryResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handleCalculate = () => {
+    setError(null);
     try {
       let res: GeometryResult;
       switch (selectedShape) {
@@ -57,7 +60,8 @@ export const GeometryMode: React.FC = () => {
       }
       setResult(res);
     } catch (e: any) {
-      alert(e.message);
+      setError(e.message);
+      setResult(null);
     }
   };
 
@@ -79,6 +83,7 @@ export const GeometryMode: React.FC = () => {
             onClick={() => {
               setSelectedShape(s.id as any);
               setResult(null);
+              setError(null);
             }}
             className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap uppercase tracking-wider transition-all ${
               selectedShape === s.id
@@ -90,6 +95,13 @@ export const GeometryMode: React.FC = () => {
           </button>
         ))}
       </div>
+
+      {error && (
+        <div className="p-4 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs flex items-center gap-3">
+          <AlertCircle size={18} className="flex-shrink-0" />
+          <span>{error}</span>
+        </div>
+      )}
 
       {/* Input section & Diagram */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -280,7 +292,9 @@ export const GeometryMode: React.FC = () => {
               <div key={idx} className="p-3.5 rounded-2xl bg-black/60 border border-white/5 space-y-1">
                 <div className="text-[10px] text-white/40 uppercase font-mono tracking-wider">{prop.label}</div>
                 <div className="text-lg font-mono font-bold text-blue-300">{prop.value} <span className="text-[10px] font-normal text-white/40">{prop.unit}</span></div>
-                <div className="text-[9px] font-mono text-white/30 truncate" title={prop.formula}>{prop.formula}</div>
+                <div className="text-[10px] text-white/50 truncate" title={prop.formula}>
+                  <MathRenderer expression={prop.formula} displayMode={false} size="sm" />
+                </div>
               </div>
             ))}
           </div>

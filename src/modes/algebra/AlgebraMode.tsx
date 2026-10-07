@@ -8,6 +8,7 @@ import {
 } from '../../math/algebraEngine';
 import { InteractiveGraph, GraphFunction, GraphPoint } from '../../components/graphing/InteractiveGraph';
 import { StepsViewer } from '../../components/ui/StepsViewer';
+import { MathRenderer } from '../../components/design-system/MathRenderer';
 import { Play, AlertCircle } from 'lucide-react';
 
 export const AlgebraMode: React.FC = () => {
@@ -186,13 +187,17 @@ export const AlgebraMode: React.FC = () => {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="p-4 rounded-2xl bg-black/60 border border-white/5 space-y-1">
+                  <div className="p-4 rounded-2xl bg-black/60 border border-white/5 space-y-2">
                     <div className="text-[10px] font-mono text-white/40 uppercase tracking-widest">
                       Solutions (Roots)
                     </div>
                     {quadResult.roots.map((r, i) => (
-                      <div key={i} className="font-mono text-lg font-bold text-blue-300">
-                        x_{i + 1} = {r.formatted}
+                      <div key={i} className="text-blue-300">
+                        <MathRenderer
+                          expression={`x_{${i + 1}} = ${r.formatted}`}
+                          displayMode={false}
+                          size="lg"
+                        />
                       </div>
                     ))}
                   </div>
@@ -210,8 +215,9 @@ export const AlgebraMode: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-black/60 border border-white/5 font-mono text-sm text-purple-300">
-                  Factored Form: {quadResult.factoredForm}
+                <div className="p-4 rounded-2xl bg-black/60 border border-white/5 text-purple-300 flex items-center gap-2">
+                  <span className="text-xs text-white/50 uppercase tracking-wider font-mono">Factored Form:</span>
+                  <MathRenderer expression={quadResult.factoredForm} displayMode={false} size="md" />
                 </div>
 
                 <StepsViewer steps={[...quadResult.stepsFormula, '', ...quadResult.stepsCompletingSquare]} title="Quadratic Formula & Completing the Square Steps" defaultOpen={true} />
@@ -254,8 +260,10 @@ export const AlgebraMode: React.FC = () => {
           {linResult && (
             <div className="p-6 rounded-3xl bg-black/40 border border-white/10 glass-panel space-y-4">
               <div className="p-4 rounded-2xl bg-black/60 border border-white/5">
-                <div className="text-[10px] font-mono text-white/40 uppercase tracking-widest mb-1">Solution</div>
-                <div className="font-mono text-2xl font-bold text-green-300">{linResult.solution}</div>
+                <div className="text-[10px] font-mono text-white/40 uppercase tracking-widest mb-2">Solution</div>
+                <div className="text-green-300">
+                  <MathRenderer expression={linResult.solution} displayMode={true} size="lg" />
+                </div>
               </div>
 
               <StepsViewer steps={linResult.steps} title="Algebraic Isolation Steps" defaultOpen={true} />
@@ -292,8 +300,10 @@ export const AlgebraMode: React.FC = () => {
           {simplifiedRes && (
             <div className="p-6 rounded-3xl bg-black/40 border border-white/10 glass-panel space-y-4">
               <div className="p-4 rounded-2xl bg-black/60 border border-white/5">
-                <div className="text-[10px] font-mono text-white/40 uppercase tracking-widest mb-1">Simplified Expression</div>
-                <div className="font-mono text-2xl font-bold text-blue-300">{simplifiedRes.simplified}</div>
+                <div className="text-[10px] font-mono text-white/40 uppercase tracking-widest mb-2">Simplified Expression</div>
+                <div className="text-blue-300">
+                  <MathRenderer expression={simplifiedRes.simplified} displayMode={true} size="lg" />
+                </div>
               </div>
 
               <StepsViewer steps={simplifiedRes.steps} title="Simplification Steps" defaultOpen={true} />

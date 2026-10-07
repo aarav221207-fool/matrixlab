@@ -3,6 +3,8 @@ import { solveLinearSystem, LinearSystemResult } from '../../math/systemsSolver'
 import { parseEquationsToMatrix } from '../../math/equationParser';
 import { MatrixEditor } from '../../components/MatrixEditor';
 import { StepsViewer } from '../../components/ui/StepsViewer';
+import { MathRenderer } from '../../components/design-system/MathRenderer';
+import { matrixToLatex } from '../../lib/latex';
 import { Play, RotateCcw, FileText, Grid, CheckCircle2, AlertCircle, HelpCircle } from 'lucide-react';
 
 export const LinearSystemsMode: React.FC = () => {
@@ -246,7 +248,7 @@ export const LinearSystemsMode: React.FC = () => {
                 Solution Vector
               </div>
               <div className="text-base sm:text-lg font-mono font-bold text-blue-200">
-                {result.solutionSummary}
+                <MathRenderer expression={result.solutionSummary} displayMode={true} size="md" />
               </div>
             </div>
 
@@ -257,8 +259,8 @@ export const LinearSystemsMode: React.FC = () => {
                   Parametric Vector Representation
                 </div>
                 {result.parametricForm.map((p, i) => (
-                  <div key={i} className="font-mono text-sm text-white/90">
-                    {p}
+                  <div key={i} className="text-sm text-white/90">
+                    <MathRenderer expression={p} displayMode={false} size="sm" />
                   </div>
                 ))}
               </div>
@@ -285,7 +287,7 @@ export const LinearSystemsMode: React.FC = () => {
               title: s.description,
               rule: `Operation ${idx + 1}`,
               description: `Matrix state after row transform:`,
-              expression: s.matrix.map(r => `[ ${r.join(', ')} ]`).join('\n')
+              expression: matrixToLatex(s.matrix)
             }))}
           />
         </div>

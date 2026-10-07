@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { analyzeFunction, composeFunctions, FunctionAnalysis } from '../../math/functionsEngine';
 import { InteractiveGraph, GraphFunction, GraphPoint } from '../../components/graphing/InteractiveGraph';
 import { StepsViewer } from '../../components/ui/StepsViewer';
+import { MathRenderer } from '../../components/design-system/MathRenderer';
 import { Play, AlertCircle, RefreshCw } from 'lucide-react';
 
 export const FunctionCalculatorMode: React.FC = () => {
@@ -187,14 +188,18 @@ export const FunctionCalculatorMode: React.FC = () => {
                 <div className="text-xs font-bold uppercase tracking-wider text-blue-400">
                   Function Composition
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs font-mono">
-                  <div className="p-3 rounded-xl bg-white/5 border border-white/5">
-                    <span className="text-white/50">(f ∘ g)(x) = f(g(x)) = </span>
-                    <span className="text-blue-300 font-bold">{composition.fog}</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                  <div className="p-3 rounded-xl bg-white/5 border border-white/5 flex flex-wrap items-center gap-2">
+                    <span className="text-white/50 font-mono">(f ∘ g)(x) =</span>
+                    <div className="text-blue-300">
+                      <MathRenderer expression={composition.fog} displayMode={false} size="sm" />
+                    </div>
                   </div>
-                  <div className="p-3 rounded-xl bg-white/5 border border-white/5">
-                    <span className="text-white/50">(g ∘ f)(x) = g(f(x)) = </span>
-                    <span className="text-purple-300 font-bold">{composition.gof}</span>
+                  <div className="p-3 rounded-xl bg-white/5 border border-white/5 flex flex-wrap items-center gap-2">
+                    <span className="text-white/50 font-mono">(g ∘ f)(x) =</span>
+                    <div className="text-purple-300">
+                      <MathRenderer expression={composition.gof} displayMode={false} size="sm" />
+                    </div>
                   </div>
                 </div>
               </div>
