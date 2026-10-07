@@ -97,7 +97,7 @@ export const AlgebraMode: React.FC = () => {
   return (
     <div className="w-full space-y-6">
       {/* Sub Tabs */}
-      <div className="flex items-center gap-1.5 p-1.5 rounded-2xl bg-black/40 border border-white/10 glass-panel">
+      <div className="flex items-center gap-1.5 p-1.5 rounded-2xl bg-black/40 border border-white/10 glass-panel overflow-x-auto min-w-0 max-w-full scrollbar-thin" style={{ WebkitOverflowScrolling: 'touch' }}>
         {[
           { id: 'quadratic', label: 'Quadratic Equation Solver (ax² + bx + c = 0)' },
           { id: 'linear', label: 'Linear Equation Solver' },

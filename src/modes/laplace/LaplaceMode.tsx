@@ -75,8 +75,8 @@ export const LaplaceMode: React.FC = () => {
         <>
           <ResultPanel
             title="FREQUENCY-DOMAIN TRANSFORM"
-            result={`F(s) = ${result.result}`}
-            subtitle={`L{ ${result.functionInput} } = ∫₀^∞ ${result.functionInput} · e^(-st) dt`}
+            result={`F(s) = ${result.resultLatex || result.result}`}
+            subtitle={`\\mathcal{L}\\{ ${result.functionInput} \\} = \\int_{0}^{\\infty} ${result.functionInput} e^{-st}\\,dt`}
             badge={result.rule}
             showSteps={showSteps}
             onToggleSteps={() => setShowSteps(!showSteps)}

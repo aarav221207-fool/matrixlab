@@ -2,9 +2,10 @@ import React from 'react';
 import { ArrowDown, CheckCircle2, ChevronRight, BookOpen, Lightbulb, GitCommit } from 'lucide-react';
 import { MatrixDisplay } from './MatrixDisplay';
 import { ResponsiveMathDisplay } from './ResponsiveMathDisplay';
+import { MathRenderer } from './MathRenderer';
 
 export interface VisualMathStep {
-  stepNumber: number | string;
+  stepNumber?: number | string;
   title: string;
   rule?: string;
   expression?: string;
@@ -13,7 +14,7 @@ export interface VisualMathStep {
   after?: string | (string | number)[][];
   transformation?: string;
   explanation?: string;
-  type?: 'derivative' | 'integral' | 'matrix' | 'equation' | 'laplace' | 'functionAnalysis' | 'relation' | 'rule' | 'conclusion' | 'general';
+  type?: 'derivative' | 'integral' | 'matrix' | 'equation' | 'laplace' | 'functionAnalysis' | 'relation' | 'rule' | 'conclusion' | 'general' | 'formula';
 }
 
 interface MathStepProps {
@@ -69,8 +70,12 @@ export const DerivativeStepDisplay: React.FC<{ step: VisualMathStep }> = ({ step
           <div className="text-[11px] font-semibold text-blue-400 uppercase tracking-wider">
             Mathematical Rule / Theorem
           </div>
-          <div className="text-sm font-serif text-blue-100 font-medium mt-0.5">
-            {step.rule}
+          <div className="text-sm font-serif text-blue-100 font-medium mt-0.5 break-words">
+            {step.rule.includes('\\') || step.rule.includes('=') ? (
+              <MathRenderer expression={step.rule} displayMode={false} size="sm" />
+            ) : (
+              step.rule
+            )}
           </div>
         </div>
       </div>
@@ -78,12 +83,16 @@ export const DerivativeStepDisplay: React.FC<{ step: VisualMathStep }> = ({ step
 
     {/* Transformation details */}
     {(step.transformation || (step.operation && step.after)) && (
-      <div className="flex flex-col items-center justify-center p-3 rounded-xl bg-slate-950/50 border border-slate-800/80">
+      <div className="flex flex-col items-center justify-center p-3 rounded-xl bg-slate-950/50 border border-slate-800/80 max-w-full overflow-hidden">
         <span className="text-[11px] font-mono uppercase tracking-widest text-slate-400 mb-1">
           Transformation: {step.operation || 'Apply Rule'}
         </span>
-        <div className="text-base sm:text-lg font-serif font-semibold text-slate-200 text-center">
-          {step.transformation || String(step.after)}
+        <div className="text-base sm:text-lg font-serif font-semibold text-slate-200 text-center max-w-full min-w-0">
+          <MathRenderer
+            expression={step.transformation || String(step.after)}
+            displayMode={false}
+            size="md"
+          />
         </div>
       </div>
     )}
@@ -92,7 +101,7 @@ export const DerivativeStepDisplay: React.FC<{ step: VisualMathStep }> = ({ step
     {step.after && step.transformation && (
       <div className="p-4 rounded-xl bg-blue-950/30 border border-blue-500/40 flex flex-col items-center justify-center">
         <span className="text-[11px] font-mono uppercase tracking-widest text-blue-300 mb-1">
-          Resulting Derivative Term
+          Resulting Term
         </span>
         <ResponsiveMathDisplay
           expression={typeof step.after === 'string' ? step.after : JSON.stringify(step.after)}
@@ -112,7 +121,7 @@ export const DerivativeStepDisplay: React.FC<{ step: VisualMathStep }> = ({ step
           <div className="text-[11px] font-semibold text-amber-400/90 uppercase tracking-wider">
             Why This Step Works
           </div>
-          <p className="text-sm text-slate-300 leading-relaxed mt-0.5">
+          <p className="text-sm text-slate-300 leading-relaxed mt-0.5 break-words">
             {step.explanation}
           </p>
         </div>
@@ -124,7 +133,6 @@ export const DerivativeStepDisplay: React.FC<{ step: VisualMathStep }> = ({ step
 /**
  * Specialized Matrix Step Component:
  * large matrix → row operation → resulting matrix
- * The matrices dominate the step with large bracketed notation.
  */
 export const MatrixStepDisplay: React.FC<{ step: VisualMathStep }> = ({ step }) => {
   const isBeforeMatrix = Array.isArray(step.before);
@@ -138,7 +146,7 @@ export const MatrixStepDisplay: React.FC<{ step: VisualMathStep }> = ({ step }) 
           <span className="text-[11px] font-mono uppercase tracking-widest text-slate-400 mb-2">
             Current Matrix State
           </span>
-          <div className="w-full max-w-full min-w-0 overflow-x-auto flex justify-center py-2">
+          <div className="w-full max-w-full min-w-0 overflow-x-auto flex justify-center py-2" style={{ WebkitOverflowScrolling: 'touch' }}>
             <MatrixDisplay matrix={step.before as (string | number)[][]} size="lg" />
           </div>
         </div>
@@ -147,9 +155,9 @@ export const MatrixStepDisplay: React.FC<{ step: VisualMathStep }> = ({ step }) 
       {/* Row Operation Indicator */}
       {step.operation && (
         <div className="flex flex-col items-center justify-center my-2">
-          <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600/20 border border-blue-500/40 text-blue-200 font-mono font-bold text-sm sm:text-base shadow-lg">
-            <GitCommit size={16} className="text-blue-400" />
-            <span>{step.operation}</span>
+          <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600/20 border border-blue-500/40 text-blue-200 font-mono font-bold text-sm sm:text-base shadow-lg max-w-full overflow-x-auto">
+            <GitCommit size={16} className="text-blue-400 shrink-0" />
+            <span className="break-words">{step.operation}</span>
           </div>
         </div>
       )}
@@ -160,7 +168,7 @@ export const MatrixStepDisplay: React.FC<{ step: VisualMathStep }> = ({ step }) 
           <span className="text-[11px] font-mono uppercase tracking-widest text-blue-300 mb-2">
             Transformed Matrix
           </span>
-          <div className="w-full max-w-full min-w-0 overflow-x-auto flex justify-center py-2">
+          <div className="w-full max-w-full min-w-0 overflow-x-auto flex justify-center py-2" style={{ WebkitOverflowScrolling: 'touch' }}>
             <MatrixDisplay matrix={step.after as (string | number)[][]} size="lg" />
           </div>
         </div>
@@ -176,7 +184,7 @@ export const MatrixStepDisplay: React.FC<{ step: VisualMathStep }> = ({ step }) 
             <div className="text-[11px] font-semibold text-blue-400 uppercase tracking-wider">
               Operation Objective
             </div>
-            <p className="text-sm text-slate-300 leading-relaxed mt-0.5">
+            <p className="text-sm text-slate-300 leading-relaxed mt-0.5 break-words">
               {step.explanation}
             </p>
           </div>
@@ -215,9 +223,9 @@ export const MathStep: React.FC<MathStepProps> = ({ step, isLast = false, classN
           </div>
 
           {step.rule && !isDerivativeStep && (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-800/80 border border-slate-700/60 text-xs font-medium text-slate-300 shrink-0">
-              <ChevronRight size={13} className="text-blue-400" />
-              <span className="max-w-[200px] truncate">{step.rule}</span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-800/80 border border-slate-700/60 text-xs font-medium text-slate-300 max-w-full">
+              <ChevronRight size={13} className="text-blue-400 shrink-0" />
+              <span className="break-words">{step.rule}</span>
             </span>
           )}
         </div>

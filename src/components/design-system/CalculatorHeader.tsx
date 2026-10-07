@@ -25,7 +25,7 @@ export const CalculatorHeader: React.FC<CalculatorHeaderProps> = ({
   return (
     <div className="w-full max-w-full min-w-0 pb-5 sm:pb-6 border-b border-slate-800/80 mb-6">
       {/* Contextual Breadcrumb */}
-      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs text-blue-400 font-medium mb-2 min-w-0">
+      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs text-blue-400 font-medium mb-2 min-w-0 max-w-full">
         <span className="truncate max-w-[140px] sm:max-w-none">{category}</span>
         <span className="text-slate-600">/</span>
         <span className="text-slate-400 truncate max-w-[140px] sm:max-w-none">{title}</span>
@@ -51,13 +51,13 @@ export const CalculatorHeader: React.FC<CalculatorHeaderProps> = ({
 
       {/* Quick Presets / Examples if provided */}
       {presets && presets.length > 0 && onSelectPreset && (
-        <div className="mt-4 flex flex-wrap items-center gap-2 min-w-0">
+        <div className="mt-4 flex flex-wrap items-center gap-2 min-w-0 max-w-full">
           <span className="text-xs text-slate-400 font-medium mr-1 shrink-0">Examples:</span>
           {presets.map((p, idx) => (
             <button
               key={idx}
               onClick={() => onSelectPreset(p.value)}
-              className="px-3 py-1 rounded-lg bg-slate-800/70 hover:bg-slate-700/80 active:bg-blue-600/30 border border-slate-700/60 hover:border-blue-500/30 text-xs text-slate-300 hover:text-white transition-all min-h-[32px]"
+              className="px-3 py-1.5 rounded-lg bg-slate-800/70 hover:bg-slate-700/80 active:bg-blue-600/30 border border-slate-700/60 hover:border-blue-500/30 text-xs text-slate-300 hover:text-white transition-all min-h-[32px] max-w-full break-words text-left"
             >
               {p.label}
             </button>

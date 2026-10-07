@@ -75,8 +75,8 @@ export const InverseLaplaceMode: React.FC = () => {
         <>
           <ResultPanel
             title="TIME-DOMAIN INVERSION"
-            result={`f(t) = ${result.resultFt}`}
-            subtitle={`L⁻¹{ ${result.inputFs} } for t ≥ 0`}
+            result={`f(t) = ${result.resultLatex || result.resultFt}`}
+            subtitle={`\\mathcal{L}^{-1}\\{ ${result.inputFs} \\} \\quad (t \\ge 0)`}
             badge={result.method}
             showSteps={showSteps}
             onToggleSteps={() => setShowSteps(!showSteps)}

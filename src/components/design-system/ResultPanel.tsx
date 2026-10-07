@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Copy, Check, Eye, EyeOff, BarChart2 } from 'lucide-react';
 import { MatrixDisplay } from './MatrixDisplay';
 import { ResponsiveMathDisplay } from './ResponsiveMathDisplay';
+import { MathRenderer } from './MathRenderer';
 
 interface ResultPanelProps {
   title?: string;
@@ -45,20 +46,20 @@ export const ResultPanel: React.FC<ResultPanelProps> = ({
   return (
     <div className={`w-full max-w-full min-w-0 my-6 rounded-2xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border-2 border-blue-500/30 p-4 sm:p-6 md:p-8 shadow-xl shadow-blue-500/5 ${className}`}>
       {/* Top Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
-        <div className="flex items-center gap-2 sm:gap-3 flex-wrap min-w-0">
-          <span className="text-xs font-bold uppercase tracking-widest text-blue-400 bg-blue-500/10 border border-blue-500/20 px-3 py-1 rounded-md">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap min-w-0 max-w-full">
+          <span className="text-xs font-bold uppercase tracking-widest text-blue-400 bg-blue-500/10 border border-blue-500/20 px-3 py-1 rounded-md shrink-0">
             {title}
           </span>
           {badge && (
-            <span className="text-xs font-medium text-slate-300 bg-slate-800/80 border border-slate-700/60 px-2.5 py-0.5 rounded-md">
+            <span className="text-xs font-medium text-slate-300 bg-slate-800/80 border border-slate-700/60 px-2.5 py-0.5 rounded-md max-w-full break-words">
               {badge}
             </span>
           )}
         </div>
 
         {/* Secondary Action Toolbar */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap shrink-0 self-end sm:self-auto">
           {onToggleSteps && (
             <button
               onClick={onToggleSteps}
@@ -81,7 +82,7 @@ export const ResultPanel: React.FC<ResultPanelProps> = ({
 
           <button
             onClick={handleCopy}
-            title="Copy result"
+            title="Copy plain math result"
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 active:bg-blue-600/40 border border-blue-500/40 text-blue-200 text-xs font-medium transition-colors min-h-[36px]"
           >
             {copied ? <Check size={14} className="text-green-400" /> : <Copy size={14} />}
@@ -93,7 +94,7 @@ export const ResultPanel: React.FC<ResultPanelProps> = ({
       {/* Main Dominant Mathematical Result Display */}
       <div className="py-6 flex flex-col items-center justify-center text-center w-full max-w-full min-w-0">
         {isMatrix ? (
-          <div className="w-full max-w-full min-w-0 overflow-x-auto flex justify-center py-2">
+          <div className="w-full max-w-full min-w-0 overflow-x-auto flex justify-center py-2" style={{ WebkitOverflowScrolling: 'touch' }}>
             <MatrixDisplay matrix={result as (string | number)[][]} size="lg" />
           </div>
         ) : (
@@ -105,9 +106,20 @@ export const ResultPanel: React.FC<ResultPanelProps> = ({
         )}
 
         {subtitle && (
-          <p className="mt-3 text-sm sm:text-base text-slate-400 font-normal max-w-2xl px-2 break-words">
-            {subtitle}
-          </p>
+          <div className="mt-3 w-full max-w-full min-w-0 flex justify-center px-2">
+            {subtitle.includes('∫') || subtitle.includes('L{') || subtitle.includes('L⁻¹') || subtitle.includes('=') ? (
+              <MathRenderer
+                expression={subtitle}
+                displayMode={false}
+                size="sm"
+                className="text-slate-400 text-center"
+              />
+            ) : (
+              <p className="text-sm sm:text-base text-slate-400 font-normal max-w-2xl break-words text-center">
+                {subtitle}
+              </p>
+            )}
+          </div>
         )}
       </div>
 
@@ -115,11 +127,11 @@ export const ResultPanel: React.FC<ResultPanelProps> = ({
       {secondaryResults && secondaryResults.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 sm:gap-3 pt-4 border-t border-slate-800/80">
           {secondaryResults.map((item, idx) => (
-            <div key={idx} className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/60 text-center min-w-0 overflow-hidden">
+            <div key={idx} className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/60 text-center min-w-0">
               <span className="text-[11px] sm:text-xs text-slate-400 font-medium block truncate">
                 {item.label}
               </span>
-              <span className="text-base sm:text-lg font-serif font-bold text-slate-100 mt-0.5 block select-all truncate">
+              <span className="text-base sm:text-lg font-serif font-bold text-slate-100 mt-0.5 block select-all break-words">
                 {item.value}
               </span>
             </div>

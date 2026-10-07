@@ -57,13 +57,13 @@ export const AppShell: React.FC<AppShellProps> = ({
 
             <button 
               onClick={() => onSelectMode('matrix')}
-              className="flex items-center gap-2 sm:gap-2.5 text-left group min-w-0"
+              className="flex items-center gap-1.5 sm:gap-2.5 text-left group shrink-0"
             >
               <div className="p-1.5 sm:p-2 rounded-xl bg-blue-600/20 text-blue-400 border border-blue-500/30 group-hover:bg-blue-600/30 transition-colors shrink-0">
                 <Calculator size={18} />
               </div>
-              <div className="min-w-0 truncate">
-                <span className="font-serif font-bold text-lg sm:text-xl tracking-tight text-slate-100 group-hover:text-blue-300 transition-colors">
+              <div className="shrink-0 flex items-center">
+                <span className="font-serif font-bold text-base sm:text-xl tracking-tight text-slate-100 group-hover:text-blue-300 transition-colors whitespace-nowrap">
                   MatrixLab
                 </span>
                 <span className="hidden sm:inline-block ml-2 text-[10px] font-semibold text-blue-400 tracking-wider uppercase">

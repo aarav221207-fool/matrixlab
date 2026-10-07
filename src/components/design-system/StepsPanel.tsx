@@ -103,7 +103,7 @@ export const StepsPanel: React.FC<StepsPanelProps> = ({
             <Layers size={18} />
           </div>
           <div className="min-w-0">
-            <h3 className="text-lg font-serif font-bold text-slate-100 truncate">
+            <h3 className="text-lg font-serif font-bold text-slate-100 break-words">
               {title}
             </h3>
             <p className="text-xs text-slate-400 font-mono">
